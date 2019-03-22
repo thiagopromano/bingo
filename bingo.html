@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en">
 <style type="text/css">
     @keyframes grow {
@@ -28,66 +29,64 @@
 </head>
 
 <body>
-    <div class="jumbotron text-center">
-        <h1 style="font-size: 150px;" id="ultimo-numero" class="grow-animation"></h1>
-    </div>
+<div class="jumbotron text-center">
+    <h1 style="font-size: 150px;" id="ultimo-numero" class="grow-animation"></h1>
+</div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <h2 class='text-center' id="numeros"></h2>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class='text-center' id="numeros"></h2>
         </div>
     </div>
-    <script>
-        /*global $*/
-        $(document).ready(function() {
-            var lastNum = -1;
+</div>
+<script>
+    /*global $*/
+    $(document).ready(function () {
+        let lastNum = -1;
 
-            setInterval(function() {
-                $.ajax({
-                    url: 'https://bingo-thiagopromano.c9users.io/numeros',
-                    success: function(data) {
-                        data = JSON.parse(data);
-                        if (data.length) {
-                            $("#ultimo-numero").text(data[data.length - 1])
-                            var numeros = data[0];
-                            for (var i = 1; i < data.length; i++)
-                                numeros += ' - ' + data[i]
-                            $("#numeros").text(numeros)
-                            if (lastNum != data[data.length - 1]) {
-                                lastNum = data[data.length - 1];
-                                try {
-                                    var element = $("#ultimo-numero")[0]
-                                    // -> removing the class
-                                    element.classList.remove("grow-animation");
+        setInterval(function () {
+            $.ajax({
+                url: window.location.origin + '/numeros',
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.length) {
+                        $("#ultimo-numero").text(data[data.length - 1]);
+                        let numeros = data[0];
+                        for (let i = 1; i < data.length; i++)
+                            numeros += ' - ' + data[i];
+                        $("#numeros").text(numeros);
+                        if (lastNum !== data[data.length - 1]) {
+                            lastNum = data[data.length - 1];
+                            try {
+                                const element = $("#ultimo-numero")[0];
+                                // -> removing the class
+                                element.classList.remove("grow-animation");
 
-                                    // -> triggering reflow /* The actual magic */
-                                    // without this it wouldn't work. Try uncommenting the line and the transition won't be retriggered.
-                                    // Oops! This won't work in strict mode. Thanks Felis Phasma!
-                                    // element.offsetWidth = element.offsetWidth;
-                                    // Do this instead:
-                                    void element.offsetWidth;
+                                // -> triggering reflow /* The actual magic */
+                                // without this it wouldn't work. Try uncommenting the line and the transition won't be retriggered.
+                                // Oops! This won't work in strict mode. Thanks Felis Phasma!
+                                // element.offsetWidth = element.offsetWidth;
+                                // Do this instead:
+                                void element.offsetWidth;
 
-                                    // -> and re-adding the class
-                                    element.classList.add("grow-animation");
-                                }
-                                catch (e) {
-                                    console.log(e);
-                                }
+                                // -> and re-adding the class
+                                element.classList.add("grow-animation");
+                            } catch (e) {
+                                console.log(e);
                             }
                         }
-                        else {
-                            $("#ultimo-numero").text('')
-                            $("#numeros").text('')
-                        }
+                    } else {
+                        $("#ultimo-numero").text('');
+                        $("#numeros").text('')
                     }
-                });
+                }
+            });
 
 
-            }, 500);
-        });
-    </script>
+        }, 500);
+    });
+</script>
 </body>
 
 </html>

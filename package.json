@@ -1,0 +1,25 @@
+{
+  "name": "bingo",
+  "version": "1.0.0",
+  "description": "para rodar basta rodar `node index`",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thiagopromano/bingo.git"
+  },
+  "author": "Thiago Romano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thiagopromano/bingo/issues"
+  },
+  "homepage": "https://github.com/thiagopromano/bingo#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "ip": "^1.1.5"
+  }
+}
