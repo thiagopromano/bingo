@@ -20,7 +20,8 @@ An admin must browse to the url provided, for example `http://192.168.0.2:8080/a
 
 All clients access `http://192.168.0.2:8080/` to view all the numbers.
 
-###Screenshots
+### Screenshots
 
 ![Client](docs/exampleClient.png?raw=true "What clients will be seeing")
+
 ![Admin](docs/exampleAdmin.png?raw=true "What the admin will be seeing")
