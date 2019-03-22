@@ -1,9 +1,9 @@
-## Bingo
+# Bingo
 
 This is a simple project that permits someone to broadcast the numbers from a Bingo game to all clients connected.
 
 It is a good idea to access the client URL using a TV, therefore many people may see the numbers called.
-### Running
+## Running
 
 To run, follow these steps:
  - Make sure you have Node.js installed
@@ -14,13 +14,13 @@ To run, follow these steps:
  - On Windows: `set PORT=8081 & npm start`
  - On Linux or MacOs: `PORT=8081 npm start`
 
-### How to use
+## How to use
 
 An admin must browse to the url provided, for example `http://192.168.0.2:8080/admin`
 
 All clients access `http://192.168.0.2:8080/` to view all the numbers.
 
-### Screenshots
+## Screenshots
 
 ![Client](docs/exampleClient.png?raw=true "What clients will be seeing")
 
