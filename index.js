@@ -18,4 +18,4 @@ app.delete('/clear', (req, res) => res.send(JSON.stringify(numeros = [])))
 app.delete('/undo', (req, res) => res.send(JSON.stringify(numeros.pop())))
 
 
-app.listen(process.env.PORT||80, () => console.log(`Example app listening on port ${process.env.PORT||80}!`))
+app.listen(process.env.PORT||80, () => console.log(`Example app listening on port ${process.env.PORT||8080}!`))
