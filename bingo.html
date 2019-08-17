@@ -14,8 +14,78 @@
         }
     }
 
+    @keyframes blink {
+        from {
+            background: #ad0000;
+        }
+        10% {
+            background: #ad0000;
+        }
+        11% {
+            background: #a9ad00;
+        }
+        20% {
+            background: #a9ad00;
+        }
+        21% {
+            background: #ad0000;
+        }
+        30% {
+            background: #ad0000;
+        }
+        31% {
+            background: #a9ad00;
+        }
+        40% {
+            background: #a9ad00;
+        }
+        41% {
+            background: #ad0000;
+        }
+        50% {
+            background: #ad0000;
+        }
+        51% {
+            background: #a9ad00;
+        }
+        60% {
+            background: #a9ad00;
+        }
+        61% {
+            background: #ad0000;
+        }
+        70% {
+            background: #ad0000;
+        }
+        71% {
+            background: #a9ad00;
+        }
+        80% {
+            background: #a9ad00;
+        }
+        81% {
+            background: #ad0000;
+        }
+        to {
+            background: #ad0000;
+        }
+    }
+
     .grow-animation {
         animation: grow 1s linear 0.1s;
+    }
+
+    .blink-animation {
+        animation: blink 5s linear 0.1s;
+    }
+
+    * {
+        color: white;
+        overflow-wrap: break-word;
+    }
+
+    .background {
+        background-color: #ad0000;
     }
 </style>
 
@@ -23,69 +93,129 @@
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 </head>
 
-<body>
-<div class="jumbotron text-center">
-    <h1 style="font-size: 150px;" id="ultimo-numero" class="grow-animation"></h1>
-</div>
-
+<body style="background-color: blue">
 <div class="container">
+    <div class="text-center background">
+        <h1 style="font-size: 100px;" id="pergunta" class="grow-animation"></h1>
+    </div>
     <div class="row">
-        <div class="col-sm-12">
-            <h2 class='text-center' id="numeros"></h2>
+        <div class="col-sm-6 p-2">
+            <div class="background">
+                <h2 class='text-center' id="resposta-1"></h2>
+            </div>
+        </div>
+        <div class="col-sm-6 p-2">
+            <div class="background">
+                <h2 class='text-center' id="resposta-2"></h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 p-2">
+            <div class="background">
+                <h2 class='text-center' id="resposta-3"></h2>
+            </div>
+        </div>
+        <div class="col-sm-6 p-2">
+            <div class="background">
+                <h2 class='text-center' id="resposta-4"></h2>
+            </div>
         </div>
     </div>
 </div>
 <script>
-    /*global $*/
+
+    let oQuestion, oAnswer1, oAnswer2, oAnswer3, oAnswer4;
     $(document).ready(function () {
-        let lastNum = -1;
+
+        oQuestion = $('#pergunta');
+        oAnswer1 = $('#resposta-1');
+        oAnswer2 = $('#resposta-2');
+        oAnswer3 = $('#resposta-3');
+        oAnswer4 = $('#resposta-4');
 
         setInterval(function () {
             $.ajax({
-                url: window.location.origin + '/numeros',
+                url: window.location.origin + '/question',
                 success: function (data) {
-                    data = JSON.parse(data);
-                    if (data.length) {
-                        $("#ultimo-numero").text(data[data.length - 1]);
-                        let numeros = data[0];
-                        for (let i = 1; i < data.length; i++)
-                            numeros += ' - ' + data[i];
-                        $("#numeros").text(numeros);
-                        if (lastNum !== data[data.length - 1]) {
-                            lastNum = data[data.length - 1];
-                            try {
-                                const element = $("#ultimo-numero")[0];
-                                // -> removing the class
-                                element.classList.remove("grow-animation");
-
-                                // -> triggering reflow /* The actual magic */
-                                // without this it wouldn't work. Try uncommenting the line and the transition won't be retriggered.
-                                // Oops! This won't work in strict mode. Thanks Felis Phasma!
-                                // element.offsetWidth = element.offsetWidth;
-                                // Do this instead:
-                                void element.offsetWidth;
-
-                                // -> and re-adding the class
-                                element.classList.add("grow-animation");
-                            } catch (e) {
-                                console.log(e);
-                            }
-                        }
-                    } else {
-                        $("#ultimo-numero").text('');
-                        $("#numeros").text('')
-                    }
+                    let old_pergunta = $("#pergunta").text();
+                    if (old_pergunta != data.pergunta)
+                        startQuestion(data);
                 }
             });
 
+        }, 500);
+
+        setInterval(function () {
+            $.ajax({
+                url: window.location.origin + '/answer',
+                success: function (data) {
+                    if (data.show == true)
+                        show_answer();
+                }
+            });
 
         }, 500);
-    });
+    })
+    const question_time = 1000;
+    const per_answer_time = 300;
+    let current_answer = 0;
+    function startQuestion(question) {
+        current_answer = question.right_answer;
+        oAnswer1.text('');
+        oAnswer2.text('');
+        oAnswer3.text('');
+        oAnswer4.text('');
+
+        oQuestion.text(question.pergunta);
+        animationGrow();
+        setTimeout(()=> {
+            oAnswer1.text('1 - ' + question.resposta1)
+        }, question_time + per_answer_time * 0)
+        setTimeout(()=> {
+            oAnswer2.text('2 - ' + question.resposta2)
+        }, question_time + per_answer_time * 1)
+        setTimeout(()=> {
+            oAnswer3.text('3 - ' + question.resposta3)
+        }, question_time + per_answer_time * 2)
+        setTimeout(()=> {
+            oAnswer4.text('4 - ' + question.resposta4)
+        }, question_time + per_answer_time * 3)
+    }
+
+    function show_answer() {
+        animationBlink(current_answer);
+    }
+    function animationGrow() {
+        try {
+            const element = $("#pergunta")[0];
+            element.classList.remove("grow-animation");
+            void element.offsetWidth;
+            // -> and re-adding the class
+            element.classList.add("grow-animation");
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    function animationBlink(number) {
+        try {
+            const element = $("#resposta-" + number)[0];
+            element.classList.remove("blink-animation");
+            void element.offsetWidth;
+            element.classList.add("blink-animation");
+        } catch (e) {
+            console.log(e);
+        }
+    }
 </script>
 </body>
 

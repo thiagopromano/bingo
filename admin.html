@@ -11,83 +11,30 @@
 </head>
 
 <body>
-<label for="numb">Number</label><input id="numb" type="number"/>
-
-<button id="submit">Submit</button>
-<button id="undo">undo</button>
-<!--<button id="rand">Rand</button> -->
-<br/><br/><br/><br/><br/><br/><br/>
-<button id="clear">Clear</button>
+<button id="new-question">Nova Pergunta</button>
+<br/><br/><br/>
+<button id="answer">Resposta</button>
 <script>
-    /*global $*/
     $(document).ready(function () {
-
-
-        $("#clear").click(function () {
-            if (confirm("Are you sure?")) {
-                $.ajax({
-                    method: 'DELETE',
-                    url: window.location.origin + '/clear'
-                });
-            }
-        });
-
-        $("#undo").click(function () {
-            $.ajax({
-                method: 'DELETE',
-                url: window.location.origin + '/undo'
-            });
-        });
-
-
-        $("#submit").click(function () {
-            const numb = $("#numb").val();
-            $.ajax({
-                method: 'POST',
-                url: window.location.origin + '/numeros',
-                data: {num: numb}
-            });
-        });
-
-
-        $('#numb').on('keypress', function (e) {
-            if (e.which === 13) {
-
-                //Do Stuff, submit, etc..$("#submit").click(function() {
-                const numb = $("#numb").val();
+        $("#answer").click(function () {
+            if (confirm("Resposta?")) {
                 $.ajax({
                     method: 'POST',
-                    url: window.location.origin + '/numeros',
-                    data: {num: numb}
+                    url: window.location.origin + '/answer'
                 });
-
             }
         });
-        /* $("#rand").click(function() {
-             $.ajax({
-                 method: 'POST',
-                 url: 'https://bingo-thiagopromano.c9users.io/numeros',
-                 data: {num: Math.floor(Math.random()*60)}
-             });
-         });*/
 
-
-        /* setInterval(function() {
-             $.ajax({
-                 url: 'https://bingo-thiagopromano.c9users.io/numeros',
-                 success: function(data) {
-                     data = JSON.parse(data);
-                     if (data.length) {
-                         $("#ultimo-numero").text(data[data.length - 1])
-                         var numeros = data[0];
-                         for (var i = 1; i < data.length; i++)
-                             numeros += ' - ' + data[i]
-                         $("#numeros").text(numeros)
-                     }
-                 }
-             });
-         }, 500);*/
+        $("#new-question").click(function () {
+            if (confirm("Nova questao?")) {
+                $.ajax({
+                    method: 'POST',
+                    url: window.location.origin + '/new_question'
+                });
+            }
+        });
     });
+
 </script>
 </body>
 
